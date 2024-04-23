@@ -3,10 +3,10 @@
     "description": "GitHubのプルリクエスト作成時に、マージ先の確認を強制するChrome拡張機能です",
     "version": "0.0.1",
     "manifest_version": 3,
-    
+
     "content_scripts": [
     {
-        "matches": ["*://github.com/*/*/compare/*..*"],
+        "matches": ["*://github.com/*/*/compare/*"],
         "js": ["content.js"]
     }
     ]
