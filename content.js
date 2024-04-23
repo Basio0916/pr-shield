@@ -15,13 +15,30 @@ const observer = new MutationObserver(function(mutationsList, observer){
     console.log("observer");
     const childObserver = new MutationObserver(function(mutationsList, observer){
         console.log("child observer");
-        for(const mutation of mutationsList) {
-            if(mutation.target.classList.contains('open')){
+        console.log(mutationsList);
+        //for(const mutation of mutationsList) {
+            if(mutationsList[0].target.classList.contains('open')){
                 const prButton = document.getElementsByClassName("hx_create-pr-button")[0];
-                prButton.setAttribute('disabled', true);
+                prButton.disabled = true;
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = 'pr-checkbox';
+                checkbox.addEventListener('change', function(event){
+                    console.log(event.target.checked);
+                    prButton.disabled = !event.target.checked;
+                });
+
+                const label = document.createElement('label');
+                label.htmlFor = 'pr-checkbox';
+                label.textContent = 'Label';
+
+                const prForm = document.getElementsByClassName('js-previewable-comment-form')[0];
+                prForm.after(label);
+                prForm.after(checkbox);
                 observer.disconnect();
             }
-        }
+        //}
     });
 
     const targetNode = document.getElementsByClassName('js-details-container Details js-compare-pr')[0];
