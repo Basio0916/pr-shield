@@ -1,0 +1,6 @@
+{
+    "name": "PRShield",
+    "description": "GitHubのプルリクエスト作成時に、マージ先の確認を強制するChrome拡張機能です",
+    "version": "0.0.1",
+    "manifest_version": 3
+}
