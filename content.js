@@ -1,0 +1,1 @@
+alert("MergeGuard: Are you sure you want to merge this pull request?");
