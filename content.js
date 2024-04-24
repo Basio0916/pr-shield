@@ -11,30 +11,6 @@ const prObserver = new MutationObserver(function(mutationsList, observer){
     if(prButton === undefined){
         return;
     }
-    renderPRConfirmation();
-});
-
-let lastMergeUrl = '';
-const mergeObserver = new MutationObserver(function(mutationsList, observer){
-    // Mergeボタンが現れたときに1度だけ処理をする
-    const mergeButton = document.getElementsByClassName('btn-group-rebase')[0];
-    if(mergeButton === undefined){
-        return;
-    }
-    if(lastMergeUrl === window.location.href){
-        return;
-    }
-    lastMergeUrl = window.location.href;
-    renderMergeConfirmation();
-});
-
-const targetNode = document.body;
-const config = { childList: true, subtree: true };
-prObserver.observe(targetNode, config);
-mergeObserver.observe(targetNode, config)
-
-function renderPRConfirmation(){
-    const prButton = document.getElementsByClassName('hx_create-pr-button')[0];
     prButton.disabled = true;
 
     insertPrConfirmation();
@@ -51,12 +27,20 @@ function renderPRConfirmation(){
         setPrButtonStatus();
     });
     titleObserver.observe(title, {childList: true})
-}
+});
 
-function renderMergeConfirmation(){
+let lastMergeUrl = '';
+const mergeObserver = new MutationObserver(function(mutationsList, observer){
+    // Mergeボタンが現れたときに1度だけ処理をする
     const mergeButton = document.getElementsByClassName('btn-group-merge')[0];
     const squashButton = document.getElementsByClassName('btn-group-squash')[0];
     const rebaseButton = document.getElementsByClassName('btn-group-rebase')[0];
+    if(mergeButton === undefined){
+        return;
+    }
+    if(lastMergeUrl === window.location.href){
+        return;
+    }
 
     if(mergeButton.disabled || squashButton.disabled || rebaseButton.disabled){
         return;
@@ -67,7 +51,14 @@ function renderMergeConfirmation(){
 
     insertMergeConfirmation();
 
-}
+    lastMergeUrl = window.location.href;
+
+});
+
+const targetNode = document.body;
+const config = { childList: true, subtree: true };
+prObserver.observe(targetNode, config);
+mergeObserver.observe(targetNode, config)
 
 function setPrButtonStatus(){
     const checkbox = document.getElementById('pr-shield-checkbox');
