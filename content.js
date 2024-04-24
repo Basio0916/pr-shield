@@ -14,6 +14,9 @@ const observer = new MutationObserver(function(mutationsList, observer){
     lastUrl = window.location.href;
     console.log("observer");
     const prButton = document.getElementsByClassName("hx_create-pr-button")[0];
+    if(prButton === undefined){
+        return;
+    }
     prButton.disabled = true;
 
     const div = document.createElement('div');
@@ -35,25 +38,41 @@ const observer = new MutationObserver(function(mutationsList, observer){
         }
     });
 
+    const label = document.createElement('label');
+    label.htmlFor = 'pr-shield-checkbox'
+    label.className = 'pr-shield-label'
+
     const text1 = document.createElement('span');
-    text1.textContent = 'This pull request goes into ';
+    text1.className = 'pr-shield-span'
+    text1.textContent = 'このプルリクエストは';
+
+    const text2 = document.createElement('span');
+    text2.textContent = 'を'
+    text2.className = 'pr-shield-span'
+    
+    const text3 = document.createElement('span');
+    text3.textContent = 'にマージします。'
+    text3.className = 'pr-shield-span'
+
 
     const base = document.createElement('span');
     base.id = 'pr-shield-base';
+    base.className = 'pr-shield-span'
     base.textContent = document.getElementById('base-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
-
-    const text2 = document.createElement('span');
-    text2.textContent = ' from '
-
+    
     const head = document.createElement('span');
     head.id = 'pr-shield-head';
+    head.className = 'pr-shield-span'
     head.textContent = document.getElementById('head-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
 
+    label.appendChild(text1);
+    label.appendChild(head);
+    label.appendChild(text2);
+    label.appendChild(base);
+    label.appendChild(text3);
+
     div.appendChild(checkbox);
-    div.appendChild(text1);
-    div.appendChild(base);
-    div.appendChild(text2);
-    div.appendChild(head);
+    div.appendChild(label);
 
     const prForm = document.getElementsByClassName('js-previewable-comment-form')[0];
     prForm.after(div);
