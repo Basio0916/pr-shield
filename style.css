@@ -8,10 +8,14 @@
     color: var(--fgColor-default, var(--color-fg-default, #1F2328));
     background-color: var(--bgColor-attention-muted, var(--color-attention-subtle, #fff8c5));
     border-color: var(--borderColor-attention-muted, var(--color-attention-muted, rgba(212, 167, 44, 0.4)));
+    margin-top: 16px;
+}
+
+#pr-shield-label-container{
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    margin-top: 16px;
+    margin-top: 5px;
 }
 
 .pr-shield-span{
