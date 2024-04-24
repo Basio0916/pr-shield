@@ -8,11 +8,18 @@
     color: var(--fgColor-default, var(--color-fg-default, #1F2328));
     background-color: var(--bgColor-attention-muted, var(--color-attention-subtle, #fff8c5));
     border-color: var(--borderColor-attention-muted, var(--color-attention-muted, rgba(212, 167, 44, 0.4)));
-    display: block;
+    display: flex;
     -webkit-box-align: center;
     align-items: center;
-    -webkit-box-pack: justify;
     margin-top: 16px;
+}
+
+.pr-shield-span{
+    margin-right: 3px;
+}
+
+.pr-shield-label{
+    font-weight: normal;
 }
 
 #pr-shield-head{
