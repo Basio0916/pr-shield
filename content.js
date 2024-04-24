@@ -16,9 +16,12 @@ const observer = new MutationObserver(function(mutationsList, observer){
     const prButton = document.getElementsByClassName("hx_create-pr-button")[0];
     prButton.disabled = true;
 
+    const div = document.createElement('div');
+    div.id = 'pr-shield-container'
+
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.id = 'pr-checkbox';
+    checkbox.id = 'pr-shield-checkbox'
     checkbox.addEventListener('change', function(event){
         if(checkbox.checked){
             prButton.disabled = false;
@@ -32,13 +35,28 @@ const observer = new MutationObserver(function(mutationsList, observer){
         }
     });
 
-    const label = document.createElement('label');
-    label.htmlFor = 'pr-checkbox';
-    label.textContent = 'Label';
+    const text1 = document.createElement('span');
+    text1.textContent = 'This pull request goes into ';
+
+    const base = document.createElement('span');
+    base.id = 'pr-shield-base';
+    base.textContent = document.getElementById('base-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
+
+    const text2 = document.createElement('span');
+    text2.textContent = ' from '
+
+    const head = document.createElement('span');
+    head.id = 'pr-shield-head';
+    head.textContent = document.getElementById('head-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
+
+    div.appendChild(checkbox);
+    div.appendChild(text1);
+    div.appendChild(base);
+    div.appendChild(text2);
+    div.appendChild(head);
 
     const prForm = document.getElementsByClassName('js-previewable-comment-form')[0];
-    prForm.after(label);
-    prForm.after(checkbox);
+    prForm.after(div);
 });
 
 // ターゲットノードとオプションを渡して監視を開始
