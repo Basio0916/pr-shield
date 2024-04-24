@@ -13,7 +13,10 @@ const prObserver = new MutationObserver(function(mutationsList, observer){
     }
     prButton.disabled = true;
 
-    insertPrConfirmation();
+    const baseName = document.getElementById('base-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
+    const headName = document.getElementById('head-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
+    const target = document.getElementsByClassName('js-previewable-comment-form')[0];
+    insertConfirmation(baseName, headName, target);
 
     const prButtonObserver = new MutationObserver(function(mutationsList, observer){
         observer.disconnect();
@@ -49,7 +52,11 @@ const mergeObserver = new MutationObserver(function(mutationsList, observer){
     squashButton.disabled = true;
     rebaseButton.disabled = true;
 
-    insertMergeConfirmation();
+    const baseName = document.getElementsByClassName('commit-ref')[0].outerText;
+    const headName = document.getElementsByClassName('commit-ref')[1].outerText;
+    const branchActionItems = document.getElementsByClassName('branch-action-item');
+    const target = branchActionItems[branchActionItems.length - 1];
+    insertConfirmation(baseName, headName, target);
 
     lastMergeUrl = window.location.href;
 
@@ -104,7 +111,7 @@ function setMergeButtonsStatus(){
     }
 }
 
-function insertPrConfirmation(){
+function insertConfirmation(baseName, headName, target){
     const container = document.createElement('div');
     container.id = 'pr-shield-container'
 
@@ -138,12 +145,12 @@ function insertPrConfirmation(){
     const base = document.createElement('span');
     base.id = 'pr-shield-base';
     base.className = 'pr-shield-span'
-    base.textContent = document.getElementById('base-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
+    base.textContent = baseName;
     
     const head = document.createElement('span');
     head.id = 'pr-shield-head';
     head.className = 'pr-shield-span'
-    head.textContent = document.getElementById('head-ref-selector').getElementsByClassName('css-truncate css-truncate-target')[0].textContent;
+    head.textContent = headName;
 
     div1.appendChild(text1);
     div1.appendChild(head);
@@ -157,67 +164,6 @@ function insertPrConfirmation(){
     container.appendChild(div1);
     container.appendChild(div2);
 
-    const prForm = document.getElementsByClassName('js-previewable-comment-form')[0];
-    prForm.after(container);
-
-    checkbox.addEventListener('change', setPrButtonStatus);
-}
-
-function insertMergeConfirmation(){
-    const container = document.createElement('div');
-    container.id = 'pr-shield-container'
-
-    const div1 = document.createElement('div');
-
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.id = 'pr-shield-checkbox';
-
-    const label = document.createElement('label');
-    label.htmlFor = 'pr-shield-checkbox'
-    label.className = 'pr-shield-label'
-    label.textContent = '確認しました'
-
-    
-    const div2 = document.createElement('div');
-    div2.id = 'pr-shield-label-container';
-
-    const text1 = document.createElement('span');
-    text1.className = 'pr-shield-span'
-    text1.textContent = 'このプルリクエストは';
-
-    const text2 = document.createElement('span');
-    text2.textContent = 'を'
-    text2.className = 'pr-shield-span'
-    
-    const text3 = document.createElement('span');
-    text3.textContent = 'にマージします'
-    text3.className = 'pr-shield-span'
-
-    const base = document.createElement('span');
-    base.id = 'pr-shield-base';
-    base.className = 'pr-shield-span'
-    base.textContent = document.getElementsByClassName('commit-ref')[0].outerText;
-    
-    const head = document.createElement('span');
-    head.id = 'pr-shield-head';
-    head.className = 'pr-shield-span'
-    head.textContent = document.getElementsByClassName('commit-ref')[1].outerText;
-
-    div1.appendChild(text1);
-    div1.appendChild(head);
-    div1.appendChild(text2);
-    div1.appendChild(base);
-    div1.appendChild(text3);
-
-    div2.appendChild(checkbox);
-    div2.appendChild(label);
-
-    container.appendChild(div1);
-    container.appendChild(div2);
-
-    const branchActionItems = document.getElementsByClassName('branch-action-item');
-    const target = branchActionItems[branchActionItems.length - 1];
     target.after(container);
 
     checkbox.addEventListener('change', setMergeButtonsStatus);
